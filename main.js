@@ -1,15 +1,17 @@
 const { request } = require('undici');
 const express = require('express');
 const session = require('express-session');
-const { clientId, clientSecret, port } = require('./config.json');
+
+// config stuff
+const { clientId, clientSecret, port, sessionSecretKey } = require('./config.json');
 const { allowedEmails } = require('./storage.json')
 
 const app = express();
 
 // Use express-session middleware
 app.use(session({
-  secret: 'your_secret_key_here', // Change this to a random secret key
-  resave: false,
+  secret: sessionSecretKey, // Change this to a random secret key in config.json
+  resave: true,
   saveUninitialized: true
 }));
 
@@ -63,19 +65,19 @@ app.get('/authenticate', async (req, res) => {
       userResult = await userResult.body.json()
       console.log(userResult)
 
+      // if we can't find email in auth list kick em out.
       if (!allowedEmails.includes(userResult.email)) return res.sendFile('unauth.html', { root: './views' });
 
       // Store authentication in session
       req.session.authenticated = true;
-      req.session.username = userResult.username
+      req.session.info = userResult
 
     } catch (error) {
       console.error(error);
       return res.sendFile('auth.html', { root: './views' });
     }
   }
-  res.redirect('/authcheck')
-  return res.sendFile('authed.html', { root: './views' });
+  return res.redirect('/')
 });
 
 app.get('/logout', (req, res) => {
@@ -88,13 +90,17 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// This route requires authentication
-app.get('/authcheck', checkAuth, (req, res) => {
-  res.send('You are authenticated.');
-});
-
+// this is the actual check, so if its not authed then send em to the gulag, if it is, allow them through
 app.get('/', checkAuth, (req, res) => {
   return res.sendFile('authed.html', { root: './views' });
 })
+
+
+// api responses
+
+app.get('/me', checkAuth, (req, res) => {
+  res.json({ "auth" : req.session.authenticated, "profile" : req.session.info });
+})
+
 
 app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
