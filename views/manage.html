@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'">
+    <link href="./universal.css" rel="stylesheet">
+    <title>Management BN 0.0.1</title>
+  </head>
+  
+
+  <body>
+    <div class="sidebar">
+      <a href="/">Home page</a>
+      <a href="/online">Online computers</a>
+      <a href="/accounts">Accounts</a>
+      <a href="/scripts">Scripts</a>
+      <a href="/manage" class="active">Management</a>
+    </div>
+    
+    <div class="content">
+      <h1>Minecraft accounts list</h1>
+      <button>open current json</button>
+      <br>
+      <input><button>submit new json</button>
+      <br>
+      <br>
+      <br>
+      <h1>Whitelist</h1>
+      <small>We currently only support email adresses.</small>
+      <ul>
+        <li>An email adresss <a>(access info)</a></li>
+        <li>An email adresss <a>(access info)</a></li>
+        <li>An email adresss <a>(access info)</a></li>
+      </ul>
+      <input><dropdown>addDropDownMenu</dropdown><button>submit</button>
+    </div>
+
+  </body>
+</html>
