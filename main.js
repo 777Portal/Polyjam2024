@@ -1,12 +1,25 @@
+// web requests
 const { request } = require('undici');
+
+// express stuff
 const express = require('express');
 const session = require('express-session');
 
-// config stuff
-const { clientId, clientSecret, port, sessionSecretKey } = require('./config.json');
-const { allowedEmails } = require('./storage.json')
+// file stuff
+const fs = require("fs"); 
 
+// config stuff 
+// Considering switching to .env but its basically the same imo.
+const { clientId, 
+        clientSecret, 
+        port, 
+        sessionSecretKey, 
+        ipLoggingEnabled 
+      } = require('./jsons/config.json');
+      
 const app = express();
+      
+var allowedEmails = require('./jsons/whitelist.json')
 
 // Use express-session middleware
 app.use(session({
@@ -14,6 +27,8 @@ app.use(session({
   resave: true,
   saveUninitialized: true
 }));
+
+
 
 // Middleware to check authentication
 const checkAuth = (req, res, next) => {
@@ -32,8 +47,10 @@ app.get('/authenticate', async (req, res) => {
   const { code } = req.query;
   console.log(code)
 
+  // the code we use in discord api (so if no code included just give them the page)
   if (!code) return res.sendFile('auth.html', { root: './views' });
 
+  // if there is code process (login) request
   if (code) {
     try {
       const tokenResponseData = await request('https://discord.com/api/oauth2/token', {
@@ -43,7 +60,7 @@ app.get('/authenticate', async (req, res) => {
           client_secret: clientSecret,
           code,
           grant_type: 'authorization_code',
-          redirect_uri: `http://localhost:${port}/authenticate`,
+          redirect_uri: `https://www.nahid.win/authenticate`,
           scope: 'identify',
         }).toString(),
         headers: {
@@ -54,6 +71,8 @@ app.get('/authenticate', async (req, res) => {
       const oauthData = await tokenResponseData.body.json();
 
       console.log(oauthData)
+
+      // if error on access ect ect send them the auth file back to redo.
       if (oauthData.error) return res.sendFile('auth.html', { root: './views' });
 
       let userResult = await request('https://discord.com/api/users/@me', {
@@ -65,8 +84,23 @@ app.get('/authenticate', async (req, res) => {
       userResult = await userResult.body.json()
       console.log(userResult)
 
+      // for future use
+      let email = userResult.email
+      console.log(email)
+
       // if we can't find email in auth list kick em out.
-      if (!allowedEmails.includes(userResult.email)) return res.sendFile('unauth.html', { root: './views' });
+      if ( ! allowedEmails.hasOwnProperty( email ) || userResult.verified === false ) return res.sendFile('unauth.html', { root: './views' });
+
+      let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
+
+      let whitelistObject = allowedEmails[email]
+      console.log(whitelistObject)
+
+      // updating the logging for the logins
+      whitelistObject.totalLogins += 1
+      whitelistObject.lastLogin = new Date()
+      
+      if ( ipLoggingEnabled ) whitelistObject.lastIpAddressLoggedInWith = ip;
 
       // Store authentication in session
       req.session.authenticated = true;
@@ -77,6 +111,8 @@ app.get('/authenticate', async (req, res) => {
       return res.sendFile('auth.html', { root: './views' });
     }
   }
+
+  // passed all checks, so allow them in.
   return res.redirect('/')
 });
 
@@ -90,14 +126,54 @@ app.get('/logout', (req, res) => {
   });
 });
 
-// this is the actual check, so if its not authed then send em to the gulag, if it is, allow them through
+// this is the actual check (for the homepage), so if its not authed then send em to the gulag, if it is, allow them through
 app.get('/', checkAuth, (req, res) => {
   return res.sendFile('authed.html', { root: './views' });
 })
 
+// auth for computer online, which is private.
+app.get('/online', checkAuth, (req, res) => {
+  return res.sendFile('online.html', { root: './views'} );
+})
+
+// auth for scripts, which are private.
+app.get('/accounts', checkAuth, (req, res) => {
+  return res.sendFile('accounts.html', { root: './views'} );
+})
+
+// auth for scripts, which are private.
+app.get('/scripts', checkAuth, (req, res) => {
+  return res.sendFile('scripts.html', { root: './views'} );
+})
+
+// auth for management, which is quite obviously private.
+app.get('/manage', checkAuth, (req, res) => {
+  return res.sendFile('manage.html', { root: './views'} );
+})
+
+
+// css that doesn't need you to be logged in, so for like auth.
+app.get('/universal.css', (reaq, res) => {
+  return res.sendFile('dashboard.css', { root: './public' });
+})
+
+// auth for dashbaord, which is private.
+app.get('/dashboard.css', checkAuth, (req, res) => {
+  return res.sendFile('dashboard.css', { root: './public' });
+})
+
+// todo add fs to modify allowed email stuff
+app.post('/modifyWhitelist', checkAuth, (req, res) => {
+  body = req.body
+  
+  if ( ! body ) return res.status(400)
+
+  console.log(body)
+
+  return res.status(200)
+})
 
 // api responses
-
 app.get('/me', checkAuth, (req, res) => {
   res.json({ "auth" : req.session.authenticated, "profile" : req.session.info });
 })
