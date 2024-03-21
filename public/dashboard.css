@@ -58,6 +58,28 @@ a:visited {
   color: var(--accent);
 }
 
+/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  display: flex;
+  flex-wrap: wrap; /* Wrap boxes to new rows */
+  justify-content: flex-start; /* Start boxes from left */
+  gap: 20px; /* Spacing between boxes */
+}
+  
+.box {
+  border-radius: 25px;
+  background: var(--secondary);
+  border: 3px solid var(--accent);
+  color: white;
+  padding: 20px;
+  width: calc(25% - 20px); /* 25% width for each box with gap */
+  max-width: 200px; /* Limit box width */
+  height: 150px;
+}
+  
+  
 /* On screens that are less than 700px wide, make the sidebar into a topbar */
 @media screen and (max-width: 700px) {
   .sidebar {
@@ -77,16 +99,6 @@ a:visited {
   }
 }
 
-.box {
-    border-radius: 25px;
-    background: var(--secondary);
-    border: 3px solid var(--accent);
-    color: white;
-    padding: 20px;
-    width: 200px;
-    height: 150px;
-}
-  
 .centerText {
     text-align: center;
 }
