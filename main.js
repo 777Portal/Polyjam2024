@@ -7,6 +7,7 @@ const session = require('express-session');
 
 // file stuff
 const fs = require("fs"); 
+const { writeFile, readFile } = require('fs');
 
 // config stuff 
 // Considering switching to .env but its basically the same imo.
@@ -18,8 +19,18 @@ const { clientId,
       } = require('./jsons/config.json');
       
 const app = express();
-      
-var allowedEmails = require('./jsons/whitelist.json')
+
+var allowedEmails;
+
+readFile("./jsons/whitelist.json", "utf8", (error, data) => {
+  if (error) {
+    console.error(error);
+    allowedEmails = require('./jsons/whitelist.json')
+  }
+  allowedEmails = JSON.parse(data);
+});
+
+console.log(allowedEmails)
 
 // Use express-session middleware
 app.use(session({
@@ -53,6 +64,8 @@ app.get('/authenticate', async (req, res) => {
   // if there is code process (login) request
   if (code) {
     try {
+      if (req.session.authenticated ) return res.redirect('/');
+
       const tokenResponseData = await request('https://discord.com/api/oauth2/token', {
         method: 'POST',
         body: new URLSearchParams({
@@ -93,6 +106,8 @@ app.get('/authenticate', async (req, res) => {
 
       let ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress 
 
+      console.log(ip)
+
       let whitelistObject = allowedEmails[email]
       console.log(whitelistObject)
 
@@ -100,12 +115,17 @@ app.get('/authenticate', async (req, res) => {
       whitelistObject.totalLogins += 1
       whitelistObject.lastLogin = new Date()
       
+      whitelistObject.profile = userResult
+
+      // is in config.json
       if ( ipLoggingEnabled ) whitelistObject.lastIpAddressLoggedInWith = ip;
 
       // Store authentication in session
       req.session.authenticated = true;
       req.session.info = userResult
 
+      // finally update the json file with the new login info.
+      writeFile('./jsons/whitelist.json', JSON.stringify(allowedEmails), (error) => {console.error(error, allowedEmails)})
     } catch (error) {
       console.error(error);
       return res.sendFile('auth.html', { root: './views' });
@@ -151,6 +171,15 @@ app.get('/manage', checkAuth, (req, res) => {
   return res.sendFile('manage.html', { root: './views'} );
 })
 
+// auth for management, which is quite obviously private.
+app.get('/manageMain.js', checkAuth, (req, res) => {
+  return res.sendFile('manageMain.js', { root: './views'} );
+})
+
+// auth for seeing the whitelist, which is private.
+app.get('/whitelist', checkAuth, (req, res) => {
+  return res.json( allowedEmails )
+})
 
 // css that doesn't need you to be logged in, so for like auth.
 app.get('/universal.css', (reaq, res) => {
@@ -177,6 +206,9 @@ app.post('/modifyWhitelist', checkAuth, (req, res) => {
 app.get('/me', checkAuth, (req, res) => {
   res.json({ "auth" : req.session.authenticated, "profile" : req.session.info });
 })
+
+
+// fs stuff
 
 
 app.listen(port, () => console.log(`App listening at http://localhost:${port}`));
