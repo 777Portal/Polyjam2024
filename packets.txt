@@ -1,0 +1,21 @@
+# incoming
+
+CLK = User clicked egg
+ - aka clicked
+B = User bought something
+ - aka bought
+
+# outgoing
+
+EU = Amount of eggs per second the client is achiving.
+ - Aka egg update
+    - ET (Egg total)
+    - EPS (Eggs per second)
+
+BU = Update on shop purcase
+ - Aka telling user what happened with their purchase
+   - Result (bool value)
+   - Errors (text string with errors if they occured)
+
+
+# i don't think this is the full docs i forgot to update this at soem point i belive.

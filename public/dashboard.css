@@ -1,153 +1,160 @@
-:root {
-    --text: #e9f7fa;
-    --background: #041012;
-    --primary: #8cdce7;
-    --secondary: #1d3689;
-    --accent: #545ddb;
-}
-
-
-html {
-    scroll-behavior: smooth;
-    background-color: var(--background);
-    color: #e3f9f1;
-}
-
-a {
-    color: var(--accent)
-}
-
-a:hover {
-    color: var(--accent)
-}
-
-a:visited {
-    color: var(--accent)
-}
-
-/* The side navigation menu */
-.sidebar {
+/* Reset styles */
+html, body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, nav, section, aside, main, div, a, img {
   margin: 0;
   padding: 0;
-  width: 150px;
-  background-color: var(--secondary);
-  /* border: 3px solid var(--accent); */
-  position: fixed;
-  height: 100%;
-  overflow: auto;
+  box-sizing: border-box;
 }
 
-/* Sidebar links */
-.sidebar a {
-  display: block;
-  /* background-color: var(--); */
-  color: var(--text);
-  padding: 16px;
+body {
+  background-color: #f0e8d4; 
+}
+
+nav {
+  background-color: #6ab04c;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav img{
+  max-width: 45px;
+  max-height: 45px; /* Corrected typo */
+  border-radius: 50%;
+}
+
+nav img:hover{
+  animation: rotate360 1s linear infinite;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo-container img {
+  margin-right: 10px;
+}
+
+nav h2 {
+  margin-right: 20px;
+}
+
+nav a {
+  color: #fff;
   text-decoration: none;
 }
 
-/* Active/current link */
-.sidebar a.active {
-  background-color: #04AA6D;
-  color: var(--accent);
-}
-
-/* Links on mouse-over */
-.sidebar a:hover:not(.active) {
-  background-color: var(--background);
-  color: var(--accent);
-}
-
-/* Page content. The value of the margin-left property should match the value of the sidebar's width property */
-div.content {
-  margin-left: 200px;
-  padding: 1px 16px;
-  display: flex;
-  flex-wrap: wrap; /* Wrap boxes to new rows */
-  justify-content: flex-start; /* Start boxes from left */
-  gap: 20px; /* Spacing between boxes */
-}
-  
-.box {
-  border-radius: 25px;
-  background: var(--secondary);
-  border: 3px solid var(--accent);
-  color: white;
+/* Side items styles */
+aside {
+  background-color: #f7ddae;
   padding: 20px;
-  width: calc(25% - 20px); /* 25% width for each box with gap */
-  max-width: 200px; /* Limit box width */
-  height: 150px;
-}
-  
-  
-/* On screens that are less than 700px wide, make the sidebar into a topbar */
-@media screen and (max-width: 700px) {
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: relative;
-  }
-  .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
-@media screen and (max-width: 400px) {
-  .sidebar a {
-    text-align: center;
-    float: none;
-  }
+aside a {
+  display: block;
+  color: #654321;
+  text-decoration: none;
+  padding: 30px;
+  margin-bottom: 5px;
+  text-align: center;
 }
 
-.centerText {
-    text-align: center;
+aside a:hover {
+  background-color: #ffe4b2; 
 }
 
-.centerImg {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
+aside a.active {
+  background-color: #c7b299;
 }
-  
-.centerDiv {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
+
+main {
+  padding: 20px;
 }
-  
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.item {
+  width: 200px; 
+  height: 200px;
+  background-color: #ccc; 
+  margin: 5px; /* Adjust spacing between items */
+}
+
+.mainEggContainer {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.egg {
+  width: 350px;
+  height: 400px;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.shaker {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.superShaker {
+  animation: shake 0.2s;
+  animation-iteration-count: infinite;
+}
 
 .overlay{
-    opacity: 0.85;
-    background-color: #414141;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0px;
-    left: 0px;
-    z-index: 999999;
-    padding: 25px;
+  opacity: 0.85;
+  background-color: #414141;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  z-index: 999999;
+  padding: 25px;
+}
+
+/* Responsive styles */
+@media only screen and (min-width: 768px) {
+  section {
+    display: flex;
+  }
+
+  aside {
+    flex: 0 0 15%;
+  }
+
+  main {
+    flex: 1;
+  }
 }
 
 @keyframes shake {
-    10%, 90% {
-      transform: translate3d(-1px, 0, 0);
-    }
-    
-    20%, 80% {
-      transform: translate3d(2px, 0, 0);
-    }
-  
-    30%, 50%, 70% {
-      transform: translate3d(-4px, 0, 0);
-    }
-  
-    40%, 60% {
-      transform: translate3d(4px, 0, 0);
-    }
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+
 @keyframes rotate360 {
-    to { transform: rotate(360deg);}           
+  to { transform: rotate(360deg);}           
 }
-  

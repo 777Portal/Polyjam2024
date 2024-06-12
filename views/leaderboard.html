@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'"> -->
+    <title>Eggstronomical Clicker</title>
+    <!-- HTML Meta Tags -->
+    <meta name="description" content="ExonAuto's submission to the 2024 polyjam.">
+
+    <!-- Google / Search Engine Tags -->
+    <meta itemprop="name" content="Eggstronomical Clicker">
+    <meta itemprop="description" content="The leaderboards of eggstronomical clicker.">
+    <meta itemprop="image" content="http://polyjam.win/assets/leaderboard.png">
+
+    <!-- Facebook Meta Tags -->   
+    <meta property="og:url" content="https://polyjam.win/leaderboard">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Eggstronomical Clicker">
+    <meta property="og:description" content="The leaderboards of eggstronomical clicker.">
+    <meta property="og:image" content="http://polyjam.win/assets/leaderboard.png">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Eggstronomical Clicker">
+    <meta name="twitter:description" content="The leaderboards of eggstronomical clicker.">
+    <meta name="twitter:image" content="http://polyjam.win/assets/leaderboard.png">
+
+    <link href="./assets/dashboard.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐰</text></svg>">
+    <title>Eggstronomical Clicker</title>
+    <style>
+      ul li {
+        list-style-type: none;
+        text-align: center;
+        background-color: #87ceeb;
+        color: #fff;
+        margin: 5px;
+        padding: 25px;
+      }
+      
+      li img {
+        max-width: 128px;
+        max-height: 128px;
+        border-radius: 50%;
+      }
+
+      .number {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        font-size: 16px;
+        color: #fff;
+        padding: 0px 20px;
+     }
+  </style>
+  </head>
+  
+  <body>
+    <nav>
+      <div class="logo-container">
+        <h2>Eggstronomical Clicker</h2>
+      </div>
+    </nav>
+    
+    <section>
+
+      <aside>
+        <a href="/"> Home </a>
+        <br>
+        <br>
+        <a href="/shop"> Shop </a>
+        <br>
+        <br>
+        <a href="/@self"> My profile </a>
+        <br> 
+        <br> 
+        <a href="/leaderboards" class="active">Leaderboard</a>
+        <br>
+        <br>
+        <a href="Https://ExonAuto.me">Credits</a>
+      </aside>
+
+      <main id="main">
+        <div style="text-align: center;"><h1> leaderboard </h1></div>
+        <div style="text-align: center;"><button id="refresh" > refresh </button></div>
+
+        <div>
+          <ul id="imSoTiredOfDoingThisButItsSoFun">
+
+          </ul>
+        </div>
+      </main>
+    </section>
+  </body>
+
+  <script src="/assets/leaderboard.js"></script>
+</html>

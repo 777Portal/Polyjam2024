@@ -1,7 +1,0 @@
-{
-    "ipLoggingEnabled": false,
-    "clientId": "discordAuthClientId",
-    "clientSecret": "discordAuthClientSecret",
-    "sessionSecretKey": "changeThisToMakeSessionStorageMoreSecure",
-    "port": 3000
-}

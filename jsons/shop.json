@@ -1,0 +1,33 @@
+{
+    "clicker": {
+        "eggMaxPerSecond": {
+            "displayName":"Max eps",
+            "discription":"Allows you to have more eggs per second (specificly for user clicks, auto upgrades don't count to the limit)",
+            "actualName":"eggMaxPerSecond",
+            "pricingEquation": "x**2*10*2.5",
+            "maxLevel": "100",
+            "baseLevel": 10,
+            "adds": 5
+        },
+        "eggClicksPerSecond": {
+            "displayName":"Value per click",
+            "discription":"gives you more eggs per click.",
+            "actualName":"eggClicksPerSecond",
+            "pricingEquation": "x**2*10*10",
+            "maxLevel": "10",
+            "baseLevel": 1,
+            "adds": 1
+        }
+    },
+    "automation": {
+        "autoClick": {
+            "displayName":"Auto clicker",
+            "discription":"Doesn't count to the eps cap.",
+            "actualName":"autoClick",
+            "pricingEquation": "x**2*10*2+10",
+            "maxLevel": "50",
+            "baseLevel": 0,
+            "adds": 0.2
+        }
+    }
+}
