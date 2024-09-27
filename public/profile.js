@@ -16,7 +16,10 @@ async function innit(){
   getEl('username').innerText = globalName
   
   const joindate = pd.firstLogin
-  getEl('joindate').innerText = `( first joined ${joindate})`
+  var utc = new Date(joindate);
+  var offset = utc.getTimezoneOffset();
+  var local = new Date(utc.getTime() + offset * 60000);
+  getEl('joindate').innerText = `( first joined ${local})`
 
   const userUrl = `https://cdn.discordapp.com/avatars/${profileInfo.id}/${profileInfo.avatar}`
   getEl('profileImg').src = userUrl
@@ -26,4 +29,10 @@ async function innit(){
 
   const totalEggs = pd.totalEggs
   getEl('totalEggs').innerText = `${addCommaToNumber(totalEggs)} total eggs`
+}
+
+// add comma to numbers we get to make it more readable
+function addCommaToNumber(x) {
+  x = roundNumber(x)
+  return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
