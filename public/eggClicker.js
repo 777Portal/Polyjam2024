@@ -17,7 +17,6 @@ document.getElementById('myEgg').addEventListener('click', function(e){
 let eps = document.getElementById('eps')
 let currentEgg = document.getElementById('currentEggAmount')
 
-let eggAmount = 0;
 socket.on("EU", (data) => {
     eggAmount = addCommaToNumber(data.currentEggs);
     if (focused == false) document.title = `EC - (${eggAmount})`;
