@@ -34,7 +34,7 @@ const { writeFile, readFile } = require('fs');
             
 var developerIds;
 
-app.use(express.static("public"));
+app.use('/assets', express.static('public'))
 
 const shopItems = require('./jsons/shop.json');
 
@@ -76,10 +76,6 @@ function getUserByUsername(username) {
   }
   return null; // User not found
 }
-
-app.get('/universal.css', (request, response) => {
-  return response.sendFile('universal.css', { root: './public' });
-});
 
 // to acess the session data between the two services (wss and website)
 const sessionData = {};
@@ -214,56 +210,11 @@ app.get('/shopItems', checkAuth, (req, res) => {
   return res.sendFile('shop.json', { root: './jsons'} );
 })
 
-// css that doesn't need you to be logged in, so for like auth.
-app.get('/assets/universal.css', (reaq, res) => {
-  return res.sendFile('universal.css', { root: './public' });
-})
-
-// for dashbaord
-app.get('/assets/dashboard.css', checkAuth, (req, res) => {
-  return res.sendFile('dashboard.css', { root: './public' });
-})
-
-// for dashbaord
-app.get('/assets/shop.js', checkAuth, (req, res) => {
-  return res.sendFile('shop.js', { root: './public' });
-})
-
-// for dashbaord javascript
-app.get('/assets/authed.js', checkAuth, (req, res) => {
-  return res.sendFile('authed.js', { root: './public' });
-})
-
-// for the eggs stuffz (websocket)
-app.get('/assets/eggClicker.js', checkAuth, (req, res) => {
-  return res.sendFile('eggClicker.js', { root: './public' });
-})
-
-// for img used in meta tags
-app.get('/assets/leaderboard.js', (req, res) => {
-  return res.sendFile('leaderboard.js', { root: './public' });
-})
-
-app.get('/assets/profile.js', (req, res) => {
-  return res.sendFile('profile.js', { root: './public' });
-})
-
-
-// for img used in meta tags
-app.get('/assets/thumb.png', (req, res) => {
-  return res.sendFile('thumb.png', { root: './public' });
-})
-
-// for img used in meta tags
-app.get('/assets/leaderboard.png', (req, res) => {
-  return res.sendFile('leaderboard.png', { root: './public' });
-})
-
 // todo add fs to modify allowed email stuff
 app.post('/modifyWhitelist', checkAuth, (req, res) => {
   body = req.body
   
-  if ( ! body ) return res.status(400)
+  if ( !body ) return res.status(400)
 
   console.log(body)
 
