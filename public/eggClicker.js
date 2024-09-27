@@ -1,5 +1,3 @@
-let socket = io.connect();
-
 socket.on("connect", () => {
     canSendEggs = true
     socket.emit("conn", {message: `Clicker connected @ [ ${getTimeStamp()} ]`})
