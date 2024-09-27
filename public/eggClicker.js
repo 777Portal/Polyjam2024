@@ -1,17 +1,16 @@
 let socket = io.connect();
 
+let focused = true;
+
 window.onfocus = function() {
     document.title = "Eggstronomical Clicker";
+    focused = true
 };
 
 window.onblur = function() {
     document.title = `EC - (${eggAmount})`;
+    focused = false
 };
-
-document.getElementById('myEgg').addEventListener('click', function(e){
-    socket.emit('CLK', {e})
-})
-
 socket.on("connect", () => {
     canSendEggs = true
     socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
@@ -30,6 +29,7 @@ let currentEgg = document.getElementById('currentEggAmount')
 let eggAmount = 0;
 socket.on("EU", (data) => {
     eggAmount = addCommaToNumber(data.currentEggs);
+    if (focused == false) document.title = `EC - (${eggAmount})`;
 
     console.log(data)
     epsAmount = data.EPS
