@@ -8,15 +8,9 @@ let socket = io.connect();
 let focused = true;
 let eggAmount = 0;
 
-window.onfocus = function() {
-  document.title = "Eggstronomical Clicker";
-  focused = true
-};
-
-window.onblur = function() {
-  document.title = `EC - (${eggAmount})`;
-  focused = false
-};
+socket.on("EU", (data) => {
+  eggAmount = addCommaToNumber(data.currentEggs);
+});
 
 socket.on("connect", () => {
   canSendEggs = true
@@ -29,6 +23,16 @@ socket.on("CloseConn", (data) => {
   toggleVis('overlay')
   document.getElementById('reason').innerText = data.reason
 });
+
+window.onfocus = function() {
+  document.title = "Eggstronomical Clicker";
+  focused = true
+};
+
+window.onblur = function() {
+  document.title = `EC - (${eggAmount})`;
+  focused = false
+};
 
 async function innit(){
     const response = await fetch("https://www.polyjam.win/me");
