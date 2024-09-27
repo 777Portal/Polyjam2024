@@ -1,9 +1,3 @@
-let socket = io.connect();
-
-socket.on("connect", () => {
-  socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
-});
-
 var balance = 0;
 var balanceTopbar = document.getElementById('balTopBar')
 
