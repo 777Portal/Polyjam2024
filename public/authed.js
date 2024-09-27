@@ -3,6 +3,31 @@ document.onload = innit()
 
 var profile;
 
+let socket = io.connect();
+
+let focused = true;
+
+window.onfocus = function() {
+  document.title = "Eggstronomical Clicker";
+  focused = true
+};
+
+window.onblur = function() {
+  document.title = `EC - (${eggAmount})`;
+  focused = false
+};
+socket.on("connect", () => {
+  canSendEggs = true
+  socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
+});
+
+socket.on("CloseConn", (data) => {
+  console.log(data)
+  canSendEggs = false
+  toggleVis('overlay')
+  document.getElementById('reason').innerText = data.reason
+});
+
 async function innit(){
     const response = await fetch("https://www.polyjam.win/me");
     var profile = await response.json();
@@ -16,7 +41,7 @@ async function innit(){
 
     profileImgs = document.getElementsByClassName('myProfileImg')
     
-    // support multiple
+    // support multiple... why does it support multiple?
     for (var i = 0; i < profileImgs.length; i++) {
         profileImgs[i].src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`
     }

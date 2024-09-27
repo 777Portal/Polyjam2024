@@ -1,19 +1,8 @@
 let socket = io.connect();
 
-let focused = true;
-
-window.onfocus = function() {
-    document.title = "Eggstronomical Clicker";
-    focused = true
-};
-
-window.onblur = function() {
-    document.title = `EC - (${eggAmount})`;
-    focused = false
-};
 socket.on("connect", () => {
     canSendEggs = true
-    socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
+    socket.emit("conn", {message: `Clicker connected @ [ ${getTimeStamp()} ]`})
 });
 
 socket.on("CloseConn", (data) => {
