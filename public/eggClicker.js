@@ -23,6 +23,10 @@ socket.on("CloseConn", (data) => {
     document.getElementById('reason').innerText = data.reason
 });
 
+document.getElementById('myEgg').addEventListener('click', function(e){
+    socket.emit('CLK', {e})
+})
+
 let eps = document.getElementById('eps')
 let currentEgg = document.getElementById('currentEggAmount')
 
