@@ -641,7 +641,7 @@ console.log( getRandomUserEgg('test-item') )
 // update saves (NOT EFFICENT I RUSHED TO FINISH THIS)
 setInterval(() => {
   // if (users)
-  console.log('Saving users.json')
+  // console.log('Saving users.json')
   writeFile('./jsons/users.json', JSON.stringify(users), (error) => { if (error) console.error(`\n\n ### ERROR ### \n ${error}, \n${users} \n\n)`);})
 }, 30000);
 
