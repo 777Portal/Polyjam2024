@@ -22,8 +22,8 @@ async function innit(){
   getEl('profileImg').src = userUrl
 
   const currentEggs = pd.currentEggs
-  getEl('currentEggs').innerText = `${currentEggs} current eggs`
+  getEl('currentEggs').innerText = `${addCommaToNumber(currentEggs)} current eggs`
 
   const totalEggs = pd.totalEggs
-  getEl('totalEggs').innerText = `${totalEggs} total eggs`
+  getEl('totalEggs').innerText = `${addCommaToNumber(totalEggs)} total eggs`
 }
