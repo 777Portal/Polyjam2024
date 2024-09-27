@@ -6,6 +6,7 @@ var profile;
 let socket = io.connect();
 
 let focused = true;
+let eggAmount = 0;
 
 window.onfocus = function() {
   document.title = "Eggstronomical Clicker";
@@ -16,6 +17,7 @@ window.onblur = function() {
   document.title = `EC - (${eggAmount})`;
   focused = false
 };
+
 socket.on("connect", () => {
   canSendEggs = true
   socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
