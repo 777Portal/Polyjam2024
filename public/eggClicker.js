@@ -1,5 +1,13 @@
 let socket = io.connect();
 
+window.onfocus = function() {
+    document.title = "Eggstronomical Clicker";
+};
+
+window.onblur = function() {
+    document.title = `EC - (${eggAmount})`;
+};
+
 document.getElementById('myEgg').addEventListener('click', function(e){
     socket.emit('CLK', {e})
 })
@@ -19,13 +27,16 @@ socket.on("CloseConn", (data) => {
 let eps = document.getElementById('eps')
 let currentEgg = document.getElementById('currentEggAmount')
 
+let eggAmount = 0;
 socket.on("EU", (data) => {
+    eggAmount = addCommaToNumber(data.currentEggs);
+
     console.log(data)
     epsAmount = data.EPS
 
     eps.innerText = `${epsAmount} / ${data.MEPS} eggs per second`
     
-    currentEgg.innerText = `${addCommaToNumber(data.currentEggs)} eggs`
+    currentEgg.innerText = `${eggAmount} eggs`
 
     // if eggs per second is zero then don't shake
     if(epsAmount <= 0) return doStyleChange('remove', 'shaker');
