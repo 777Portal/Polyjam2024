@@ -417,7 +417,7 @@ app.get('/api/dev/raw', checkAuth, async (req, res) => {
   res.json( { users } );
 })
 
-router.get('/api/leaderboard/delete/:id', checkAuth, async (req, res) => {
+app.get('/api/leaderboard/delete/:id', checkAuth, async (req, res) => {
   if (!req.session.dev) return res.status(403).json({error:"access denied."});
   let id = req.params.id
 
