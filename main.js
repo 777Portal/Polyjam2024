@@ -187,6 +187,7 @@ app.get('/logout', (req, res) => {
   });
 });
 
+
 // this is the actual check (for the homepage), so if its not authed then send em to the gulag, if it is, allow them through
 app.get('/', checkAuth, (req, res) => {
   return res.sendFile('authed.html', { root: './views' });
@@ -416,6 +417,22 @@ app.get('/api/dev/raw', checkAuth, async (req, res) => {
   res.json( { users } );
 })
 
+router.get('/api/leaderboard/delete/:id', checkAuth, async (req, res) => {
+  if (!req.session.dev) return res.status(403).json({error:"access denied."});
+  let id = req.params.id
+
+  let userToDelete = users[id];
+  console.log(`deleting user with id: ${id}`)
+  if (!userToDelete) return res.status(404).json( { 'errors': `user ${id} not found. please double check the blip id`})
+
+  delete users[id];
+
+  writeFile('./jsons/users.json', JSON.stringify(users), (error) => {res.status(500).json( { 'errors': error})})
+  
+  return res.status(200).json(users)
+})
+
+
 // wss stuff
 const sockets = {};
 
@@ -519,6 +536,7 @@ io.on('connection', (socket) => {
   socket.on('CLK', (eventInfo) => {
     eventInfo = eventInfo?.e;
 
+    // is trusted means that it wasn't clicked by js, i was wondering why is said missing cache, its to throw off a exploter lol... not that it matters much?
     if (!eventInfo.isTrusted) return socket.emit('ERR', 'Missing Cache for user request. Try reconnecting?');
 
     clickedEgg(socket);
