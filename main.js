@@ -69,7 +69,7 @@ const checkAuth = (req, res, next) => {
 
 // Middleware to check authentication
 const checkDevAuth = (req, res, next) => {
-  if (!req.session.dev) return res.status(403).json({error:"access denied."});
+  if (!req.session.isDev) return res.status(403).json({error:"access denied."});
   
   next();
 };
@@ -135,7 +135,7 @@ app.get('/authenticate', async (req, res) => {
     let id = userResult.id
 
     // if id is in whitelist (dev list basically) don't give them the ability to acess dev stuff (also should be in the main storage when its done)
-    if ( developerIds.hasOwnProperty( id ) ) req.session.dev = true;
+    if ( developerIds.hasOwnProperty( id ) ) req.session.isDev = true;
     
     // account doesn't exist.
     if ( ! users.hasOwnProperty( id ) )
@@ -210,7 +210,7 @@ app.get('/leaderboards', (req, res) => {
   return res.sendFile('leaderboard.html', { root: './views' });
 })
 
-app.get('/whitelist', checkAuth, (req, res) => {
+app.get('/devs', checkAuth, (req, res) => {
   return res.json( developerIds )
 })
 
@@ -345,7 +345,7 @@ app.get('/me', checkAuth, (req, res) => {
   let myUser = users[req.session.info.id]
   let shop = myUser.shop ?? {}
   // console.log( myUser, myUser.shop, req.session.info.id)
-  res.json( { profile: req.session.info, shop, isDev: req.session.dev ?? false } );
+  res.json( { profile: req.session.info, shop, isDev: req.session.isDev ?? false } );
 })
 
 // get by display names
@@ -465,7 +465,9 @@ io.on('connection', (socket) => {
   // sending existing online users to a new user (why did i do this again? AHHHHH i wanted to make FRIENDs online feature but didn't get enough time to make it. tbh this would've been better as a discord application thingy cuz that competiton was going on at the same time but i found the polyjam more fun :))
   if (Object.keys(sockets).length > 0) {
     Object.keys(sockets).forEach((socketId) => {
-      socket.emit('onlineUsers', { socketId });
+      if (socketSessionData.isDev){
+        socket.emit('onlineUsers', sockets);
+      }
     });
   }
 
