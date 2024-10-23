@@ -25,13 +25,12 @@ async function innit() {
   document.getElementById('loadMore2').addEventListener("click",function() { moveLB() });
 }
 
-async function moveLB(goBack = false) {  
-  holder.innerText = '';
-  
-  if (goBack == true && (index - 20) > 0) index = index - 20;
-
+async function moveLB(goBack) {
+  if (goBack && (index - 20) > 0) index = index - 20;
   let originalIndex = index;
-  
+
+  holder.innerText = '';
+
   for (let i = originalIndex; i < allData.length && i < originalIndex + 10; i++) {
     let userJson = allData[i];
     console.log(userJson);
@@ -39,6 +38,7 @@ async function moveLB(goBack = false) {
     addUser(userJson);
     index ++;
   }
+  index = originalIndex + 10; // to account for the backwards check.
 }
 
 async function addUser(json){
@@ -62,7 +62,7 @@ async function addUser(json){
     newLi.id = username
 
   let rankNum = createEl('h1')
-    rankNum.innerText = `#${index}`
+    rankNum.innerText = `#${index+1}`
 
   let profileImg = createEl('img')
     profileImg.src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`    
