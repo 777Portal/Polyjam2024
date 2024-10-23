@@ -41,7 +41,6 @@ const shopItems = require('./jsons/shop.json');
 readFile("./jsons/whitelist.json", "utf8", (error, data) => {
   if (error) {
     console.error(error);
-    // developerIds = require('./jsons/whitelist.json') if it fails this changes nothing
     developerIds = {} // JSON.parse(developerIds)
   }
   developerIds = JSON.parse(data);
@@ -52,11 +51,12 @@ var users;
 
 // users.json will only contain like information on all users, more specific stuff will be in the storage.
 readFile("./jsons/users.json", "utf8", (error, data) => {
-  if (!error) return users = JSON.parse(data);
+  if (error) {
+    console.error('###\n####\n###\n\nCritical error\n\nCouldn\'t find users.json. Ending process to protect data.')
+    process.exit()
+  };
 
-  console.error(error); // actually don't know if this will throw an error but im trying to clean the code a little so uhhh just make an issue if this stops the application
-  users = require('./jsons/users.json')
-  users = JSON.parse(users)
+  users = JSON.parse(data)
 });
 
 // Middleware to check authentication
