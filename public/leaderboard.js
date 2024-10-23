@@ -9,15 +9,16 @@ async function innit() {
 
   const response = await fetch("https://www.polyjam.win/api/leaderboard/?type=currentEggs&method=-1");
   allData = await response.json();
+  console.log(allData)
   index = 0;
   
   addTenToLeaderboard();
 
   document.getElementById('refresh').addEventListener("click", function() { location.reload() });
-  document.getElementById('refresh2').addEventListener("click", function() { location.reload() });
+  document.getElementById('refresh2').addEventListener("click",function() { location.reload() });
   
-  document.getElementById('loadMore').addEventListener("click", addTenToLeaderboard());
-  document.getElementById('loadMore2').addEventListener("click", addTenToLeaderboard());
+  document.getElementById('loadMore').addEventListener("click", function() { addTenToLeaderboard() });
+  document.getElementById('loadMore2').addEventListener("click",function() { addTenToLeaderboard() });
 }
 
 async function addTenToLeaderboard() {
@@ -26,6 +27,7 @@ async function addTenToLeaderboard() {
   
   for (let i = originalIndex; i < allData.length && i < originalIndex + 10; i++) {
     let userJson = allData[i];
+    console.log(userJson);
 
     addUser(userJson);
     index++;
@@ -81,6 +83,9 @@ async function addUser(json){
   newLi.appendChild(totalMoneyz)
   
   holder.appendChild(newLi)
+  
+  console.log(holder)
+  console.log(newLi);
 
   function createEl(element){
     return document.createElement(element)
