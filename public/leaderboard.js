@@ -26,7 +26,7 @@ async function innit() {
 }
 
 async function moveLB(goBack) {
-  if (goBack && (index - 20) > 0) index = index - 20;
+  if (goBack) index = index - 20;
   let originalIndex = index;
 
   holder.innerText = '';
@@ -67,6 +67,10 @@ async function addUser(json){
   let profileImg = createEl('img')
     profileImg.src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`    
 
+  profileImg.onerror = function() {
+    this.src = 'https://cdn.discordapp.com/embed/avatars/1.png';
+  };
+  
   // the display name & link to profile
   let profileLink = createEl('a')
     profileLink.innerText = `[ ${globalName} ]`
