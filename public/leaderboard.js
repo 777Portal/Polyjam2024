@@ -13,8 +13,8 @@ async function innit() {
   
   addTenToLeaderboard();
 
-  document.getElementById('refresh').addEventListener("click", location.reload());
-  document.getElementById('refresh2').addEventListener("click", location.reload());
+  document.getElementById('refresh').addEventListener("click", function() { location.reload() });
+  document.getElementById('refresh2').addEventListener("click", function() { location.reload() });
   
   document.getElementById('loadMore').addEventListener("click", addTenToLeaderboard());
   document.getElementById('loadMore2').addEventListener("click", addTenToLeaderboard());
