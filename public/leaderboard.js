@@ -17,26 +17,27 @@ async function innit() {
   document.getElementById('refresh').addEventListener("click", function() { location.reload() });
   document.getElementById('refresh2').addEventListener("click",function() { location.reload() });
   
-  document.getElementById('loadLess').addEventListener("click",function() { moveLB(-1) });
-  document.getElementById('loadLess2').addEventListener("click",function() { moveLB(-1) });
+  document.getElementById('loadLess').addEventListener("click",function() { moveLB(true) });
+  document.getElementById('loadLess2').addEventListener("click",function() { moveLB(true) });
 
 
   document.getElementById('loadMore').addEventListener("click", function() { moveLB() });
   document.getElementById('loadMore2').addEventListener("click",function() { moveLB() });
 }
 
-async function moveLB(modifier = 1) {  
+async function moveLB(goBack = false) {  
   holder.innerText = '';
   
+  if (goBack == true && (index - 20) > 0) index = index - 20;
+
   let originalIndex = index;
-  let finalNumber = originalIndex + (10 * modifier);
   
-  for (let i = originalIndex; i < allData.length && i < finalNumber; i+=modifier) {
+  for (let i = originalIndex; i < allData.length && i < originalIndex + 10; i++) {
     let userJson = allData[i];
     console.log(userJson);
 
     addUser(userJson);
-    index += modifier;
+    index ++;
   }
 }
 
