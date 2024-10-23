@@ -1,6 +1,6 @@
 document.onload = innit()
 
-var holder;
+var holder = document.getElementById('leaderboardHolder');
 var index;
 var allData;
 
@@ -39,6 +39,8 @@ async function addUser(json){
   const avatar = profile.avatar
   const globalName = profile.global_name
   const username = profile.username
+
+  console.log(globalName)
 
   // egg shitez
   const currentEggs = addCommaToNumber(json.currentEggs)
