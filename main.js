@@ -67,6 +67,13 @@ const checkAuth = (req, res, next) => {
   next();
 };
 
+// Middleware to check authentication
+const checkDevAuth = (req, res, next) => {
+  if (!req.session.dev) return res.status(403).json({error:"access denied."});
+  
+  next();
+};
+
 // get profile via username
 function getUserByUsername(username) {
   for (const userId in users) {
@@ -348,13 +355,11 @@ app.get('/api/users/@:username', async (req, res) => {
 
   if ( !userData ) return res.status(404).json({error:"couldn't find that user D: please make sure you typed the correct username, or that user has played atleast once."});
 
-  const profile = userData.profile
-  const currentEggs = userData.currentEggs
-  const totalEggs = userData.totalEggs
-  const userEggs = userData.userEggs
-  const firstLogin = userData.firstLogin
+  const { profile, currentEggs, totalEggs, userEggs, firstLogin } = userData;
 
-  res.json( { profile, currentEggs, totalEggs, userEggs, firstLogin} );
+  const isDev = userData.isDev ?? false
+
+  res.json( { profile, currentEggs, totalEggs, userEggs, firstLogin, isDev} );
 })
 
 // user api with id's instead of display names. now that i think about it, because i don't refresh the tokens, display name stuff could break but uhhhh we don't talk about it.
@@ -411,27 +416,29 @@ function sortJsonToArray(value, method){
 }
 
 // basically just the user data stuff like eggs upgrades ect of all users (very awesome sauce)
-app.get('/api/dev/raw', checkAuth, async (req, res) => {
-  if (!req.session.dev) return res.status(403).json({error:"access denied."});
-
+app.get('/api/dev/raw', checkAuth, checkDevAuth, async (req, res) => {
   res.json( { users } );
-})
+});
 
-app.get('/api/leaderboard/delete/:id', checkAuth, async (req, res) => {
-  if (!req.session.dev) return res.status(403).json({error:"access denied."});
+// ima do this in the websocket cuz its live events. might switch over more of the dev stuff to the websocket.
+// app.get('/api/dev/online', checkAuth, checkDevAuth, async (req, res) => {  
+//   res.json( { users } );
+// });
+
+app.get('/api/dev/delete/:id', checkAuth, checkDevAuth, async (req, res) => {
   let id = req.params.id
 
   let userToDelete = users[id];
   console.log(`deleting user with id: ${id}`)
+  
   if (!userToDelete) return res.status(404).json( { 'errors': `user ${id} not found. please double check the blip id`})
 
   delete users[id];
 
-  writeFile('./jsons/users.json', JSON.stringify(users), (error) => {res.status(500).json( { 'errors': error})})
-  
-  return res.status(200).json(users)
+  writeFile('./jsons/users.json', JSON.stringify(users), (error) => {
+    return res.status(200).json(users)
+  })
 })
-
 
 // wss stuff
 const sockets = {};
