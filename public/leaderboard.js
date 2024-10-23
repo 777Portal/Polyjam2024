@@ -1,22 +1,34 @@
 document.onload = innit()
 
 var holder;
+var index;
+var allData;
 
-// programtically add all shop items form rest endpoint
-async function innit(){
-  holder = document.getElementById('imSoTiredOfDoingThisButItsSoFun')
+async function innit() {
+  holder = document.getElementById('leaderboardHolder');
 
   const response = await fetch("https://www.polyjam.win/api/leaderboard/?type=currentEggs&method=-1");
-  var allData = await response.json();
+  allData = await response.json();
+  index = 0;
   
-  holder.innerText = ''
+  addTenToLeaderboard();
 
-  console.log(allData)
-  for (let user in allData)
-  {
-    let userJson = allData[user]
-    console.log(userJson.profile.global_name)
-    addUser(userJson)
+  document.getElementById('refresh').addEventListener("click", location.reload());
+  document.getElementById('refresh2').addEventListener("click", location.reload());
+  
+  document.getElementById('loadMore').addEventListener("click", addTenToLeaderboard());
+  document.getElementById('loadMore2').addEventListener("click", addTenToLeaderboard());
+}
+
+async function addTenToLeaderboard() {
+  holder.innerText = '';
+  let originalIndex = index;
+  
+  for (let i = originalIndex; i < allData.length && i < originalIndex + 10; i++) {
+    let userJson = allData[i];
+
+    addUser(userJson);
+    index++;
   }
 }
 
