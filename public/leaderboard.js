@@ -17,20 +17,26 @@ async function innit() {
   document.getElementById('refresh').addEventListener("click", function() { location.reload() });
   document.getElementById('refresh2').addEventListener("click",function() { location.reload() });
   
-  document.getElementById('loadMore').addEventListener("click", function() { addTenToLeaderboard() });
-  document.getElementById('loadMore2').addEventListener("click",function() { addTenToLeaderboard() });
+  document.getElementById('loadLess').addEventListener("click",function() { moveLB(-1) });
+  document.getElementById('loadLess2').addEventListener("click",function() { moveLB(-1) });
+
+
+  document.getElementById('loadMore').addEventListener("click", function() { moveLB() });
+  document.getElementById('loadMore2').addEventListener("click",function() { moveLB() });
 }
 
-async function addTenToLeaderboard() {
+async function moveLB(modifier = 1) {  
   holder.innerText = '';
-  let originalIndex = index;
   
-  for (let i = originalIndex; i < allData.length && i < originalIndex + 10; i++) {
+  let originalIndex = index;
+  let finalNumber = originalIndex + (10 * modifier);
+  
+  for (let i = originalIndex; i < allData.length && i < finalNumber; i+=modifier) {
     let userJson = allData[i];
     console.log(userJson);
 
     addUser(userJson);
-    index++;
+    index += modifier;
   }
 }
 
@@ -48,14 +54,14 @@ async function addUser(json){
   const currentEggs = addCommaToNumber(json.currentEggs)
   const totalEggs = addCommaToNumber(json.totalEggs)
 
-  const number = (holder.childElementCount ?? 0) + 1 // js + cacheing being strange rn...
+  // const number = (holder.childElementCount ?? 0) + 1 // js + cacheing being strange rn...
 
   // append list item to ul for css reasons :P
   let newLi = createEl('li')
     newLi.id = username
 
   let rankNum = createEl('h1')
-    rankNum.innerText = `#${number}`
+    rankNum.innerText = `#${index}`
 
   let profileImg = createEl('img')
     profileImg.src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`    
