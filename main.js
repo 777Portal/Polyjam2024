@@ -174,8 +174,7 @@ app.get('/authenticate', async (req, res) => {
     writeFile('./jsons/users.json', JSON.stringify(users), (error) => {console.error(error, users)})
 
   } 
-  catch (error) 
-  {
+  catch (error) {
     console.error(error);
     return res.sendFile('auth.html', { root: './views' });
   }
@@ -462,11 +461,10 @@ io.on('connection', (socket) => {
   // to iterate over all sockets if we want to send smth in the future
   sockets[socket.id] = socket;
 
-  // sending existing online users to a new user (why did i do this again? AHHHHH i wanted to make FRIENDs online feature but didn't get enough time to make it. tbh this would've been better as a discord application thingy cuz that competiton was going on at the same time but i found the polyjam more fun :))
   if (Object.keys(sockets).length > 0) {
     Object.keys(sockets).forEach((socketId) => {
       if (socketSessionData.isDev){
-        socket.emit('onlineUsers', sockets);
+        socket.emit('onlineUsers', 'did this break stuff');
       }
     });
   }
