@@ -12,7 +12,7 @@ async function innit() {
   console.log(allData)
   index = 0;
   
-  addTenToLeaderboard();
+  moveLB();
 
   document.getElementById('refresh').addEventListener("click", function() { location.reload() });
   document.getElementById('refresh2').addEventListener("click",function() { location.reload() });
