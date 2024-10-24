@@ -24,7 +24,7 @@ socket.on("BU", (data) => {
 
   let theButton = document.getElementById(item)
   let levelText = document.getElementById(`${item}Level`);
-  levelText.innerText = `level ${level} / ${maxLevel}`
+  if (result) levelText.innerText = `level ${level} / ${maxLevel}`;
 
   // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
   if (result) theButton.innerText = `buy for ${roundNumber(price)} eggs`;

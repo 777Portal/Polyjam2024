@@ -575,11 +575,13 @@ io.on('connection', (socket) => {
     
     let price = eval(priceEq)
 
+    let level = userObject.shop[item];
+
     // not enough money
-    if ( userObject.currentEggs < price ) return socket.emit('BU', {result: false, error: 'not enought money.', item, catagory})
+    if ( userObject.currentEggs < price ) return socket.emit('BU', {result: false, error: 'not enought money.', item, catagory, newPrice: price, level, maxLevel})
   
     // more then max
-    if ( (x+actualItem.adds) > maxLevel ) return socket.emit('BU', {result: false, error: 'already reached max level.', item, catagory})
+    if ( (x+actualItem.adds) > maxLevel ) return socket.emit('BU', {result: false, error: 'already reached max level.', item, catagory, newPrice: price, level, maxLevel})
     
     // passed all checks, and check if shop exists, if not create it.
     if (!userObject.shop) userObject.shop = {};
@@ -595,8 +597,6 @@ io.on('connection', (socket) => {
     
     let newPrice = eval(priceEq)
     
-    let level = userObject.shop[item];
-
     socket.emit('BU', {result: true, error: 'Succesfully bought!', item, catagory, newPrice, level, maxLevel})
 
     // console.log( console.log(shopCatagory, '\n', actualItem, '\n' , item) )
