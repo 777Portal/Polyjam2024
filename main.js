@@ -560,9 +560,12 @@ io.on('connection', (socket) => {
     if (!item || !catagory) return socket.emit('BU', {result: false, error: 'no item / catagory in request.', item, catagory})
     
     let shopCatagory = shopItems[catagory]
-    let actualItem = shopCatagory[item]
+    if (!shopCatagory) return socket.emit('BU', {result: false, error: 'catagory doesn\'t exist.', item, catagory});
 
-    let maxLevel = actualItem.maxLevel
+    let actualItem = shopCatagory[item]
+    if (!actualItem) return socket.emit('BU', {result: false, error: 'item doesn\'t exist.', item, catagory});;
+
+    let maxLevel = actualItem?.maxLevel
 
     x = userObject?.shop?.[item] ?? actualItem.baseLevel
     let priceEq = actualItem.pricingEquation
