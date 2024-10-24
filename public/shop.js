@@ -23,7 +23,7 @@ socket.on("BU", (data) => {
   console.log(string)
 
   let theButton = document.getElementById(item)
-  let levelText = theButton.parentElement.getElementsById(`${item}Level`)
+  let levelText = document.getElementById(`${item}Level`);
   levelText.innerText = `level ${item} / ${maxLevel}`
 
   // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
