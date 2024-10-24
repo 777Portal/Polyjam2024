@@ -37,6 +37,7 @@ var developerIds;
 app.use('/assets', express.static('public'))
 
 const shopItems = require('./jsons/shop.json');
+console.log(shopItems)
 
 readFile("./jsons/whitelist.json", "utf8", (error, data) => {
   if (error) {
@@ -560,7 +561,7 @@ io.on('connection', (socket) => {
     if (!item || !catagory) return socket.emit('BU', {result: false, error: 'no item / catagory in request.', item, catagory})
     
     let shopCatagory = shopItems[catagory, catagory]
-    console.log(item, catagory, shopCatagory, shopItems[catagory])
+    console.log(item, catagory, shopItems, shopCatagory, shopItems[catagory])
 
     if (!shopCatagory) return socket.emit('BU', {result: false, error: 'catagory doesn\'t exist.', item, catagory});
 
