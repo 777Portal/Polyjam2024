@@ -84,7 +84,7 @@ async function addCatagoryShopItems(holder, json, catagory){
     let newChild = createEl('div')
       newChild.classList = 'item'
       newChild.style.textAlign = 'center'
-      newChild.id = itemJson.actualName
+      newChild.id = catagory
 
     // the display name
     let name = createEl('h2')
@@ -96,7 +96,7 @@ async function addCatagoryShopItems(holder, json, catagory){
 
     let level = createEl('p')
       level.innerText = `level ${roundNumber(x)}/${itemJson.maxLevel}`
-      level.id = `${itemJson.actualName}Price`
+      level.id = `${itemJson.actualName}Level`
 
     let additionInfo = createEl('p')
       // if x user level exists then use that if not then just use 1.
