@@ -340,7 +340,9 @@ app.get('/@:username', async (req, res) => {
 });
 
 // api responses, this one is specificly just your user data.
-app.get('/me', checkAuth, (req, res) => {
+app.get('/me', (req, res) => {
+  if (!req.session.authenticated) return res.json({profile: null});
+
   let myUser = users[req.session.info.id]
   let shop = myUser.shop ?? {}
   // console.log( myUser, myUser.shop, req.session.info.id)
@@ -579,7 +581,7 @@ io.on('connection', (socket) => {
     // should mean they passed all the checks? (hopefully, i think i didn't forget anything)
     userObject.shop[item] = x+actualItem.adds
 
-    // remove the money egg
+    // remove the money from the person's account
     let currentEgg = userObject.currentEggs
     userObject.currentEggs = currentEgg - price
 
@@ -587,9 +589,11 @@ io.on('connection', (socket) => {
     
     let newPrice = eval(priceEq)
     
-    socket.emit('BU', {result: true, error: 'Succesfully bought!', item, catagory, newPrice})
+    let level = userObject.shop[item];
 
-    console.log( console.log(shopCatagory, '\n', actualItem, '\n' , item) )
+    socket.emit('BU', {result: true, error: 'Succesfully bought!', item, catagory, newPrice, level, maxLevel})
+
+    // console.log( console.log(shopCatagory, '\n', actualItem, '\n' , item) )
   });
 
   // Handling disconnection

@@ -4,7 +4,6 @@ var balanceTopbar = document.getElementById('balTopBar')
 // get how much moneyz we have from wss
 socket.on("EU", (data) => {
   balance = data.currentEggs
-
   balanceTopbar.innerText = `${addCommaToNumber(balance)} eggs`
 });
 
@@ -16,17 +15,21 @@ socket.on("BU", (data) => {
   let color = result ? 'green' : 'red'
   let string = result ? 'Sucessfully purchased item!' : data.error
   let price = data?.newPrice
+  let level = data?.level;
+  let maxLevel = data?.maxLevel;
 
   let item = data.item
 
   console.log(string)
 
   let theButton = document.getElementById(item)
-    // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
-    if (result) theButton.innerText = `buy for ${roundNumber(price)} eggs`;
-    theButton.style.backgroundColor = color
-  
-  // JELEEL! as coding music goes so hard (glaive is good also, but it makes me want to kms)
+  let levelText = theButton.parentElement.getElementsById(`${item}Level`)
+  levelText.innerText = `level ${item} / ${maxLevel}`
+
+  // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
+  if (result) theButton.innerText = `buy for ${roundNumber(price)} eggs`;
+  theButton.style.backgroundColor = color
+
   setTimeout(() => {
     let theButton = document.getElementById(item)
     theButton.style.backgroundColor = 'white';
@@ -52,7 +55,11 @@ async function innit(){
 
     // catagory's id is the id of the holder.
     let holder = document.getElementById(catagory)
-    if ( !holder ) return console.error('couldn\'t find the catagory: ', catagory, ' @', getTimeStamp())
+    if ( !holder )
+    {
+      console.error('couldn\'t find the catagory: ', catagory, ' @', getTimeStamp())
+      continue
+    }
 
     // we take that data and ship it to a function to add it to this specific catagory. (is my js pretty yet?)
     addCatagoryShopItems( holder, allShopCatagorys[catagory], catagory )
@@ -71,13 +78,13 @@ async function addCatagoryShopItems(holder, json, catagory){
     // if it exists use that level, if not, then use base level.
     x = userData?.shop?.[shopItem] ?? itemJson.baseLevel
     let theActualPrice = eval(itemJson.pricingEquation) // (hopefully) fine, bc its not on the server (rah)
-   theActualPrice = Math.round(theActualPrice * 100) / 100 // round to the .00 place
+    theActualPrice = Math.round(theActualPrice * 100) / 100 // round to the .00 place
 
     // main thing that is the "item"
     let newChild = createEl('div')
       newChild.classList = 'item'
       newChild.style.textAlign = 'center'
-      newChild.id = catagory
+      newChild.id = itemJson.actualName
 
     // the display name
     let name = createEl('h2')
@@ -89,6 +96,7 @@ async function addCatagoryShopItems(holder, json, catagory){
 
     let level = createEl('p')
       level.innerText = `level ${roundNumber(x)}/${itemJson.maxLevel}`
+      level.id = `${itemJson.actualName}Price`
 
     let additionInfo = createEl('p')
       // if x user level exists then use that if not then just use 1.
