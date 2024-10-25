@@ -89,7 +89,7 @@ function getUserByUsername(username) {
 const sessionData = {};
 
 app.get('/', async (req, res) =>{
-  return res.sendFile('auth.html', { root: './views' });
+  return res.sendFile('landing.html', { root: './views' });
 })
 
 // this route is for the authentication process
