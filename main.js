@@ -88,7 +88,7 @@ function getUserByUsername(username) {
 // to acess the session data between the two services (wss and website)
 const sessionData = {};
 
-app.get('/', async (req, query) =>{
+app.get('/', async (req, res) =>{
   return res.sendFile('auth.html', { root: './views' });
 })
 
