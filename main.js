@@ -540,7 +540,7 @@ io.on('connection', (socket) => {
       socketSessionData.EPS -= (userMaxEPS * 0.25) + 1
     }
 
-    if (eps < 0) eps = 0;
+    eps = (socketSessionData.EPS > 0)? socketSessionData.EPS: 0;
 
     // instead of using +=, using obj + mod allows me to set it to a fallback value if its not defined.
     // theorically, it shouldn't have this as it would be set at the start but im too lazy to clear users json, and supports sustaniability in the long run.
