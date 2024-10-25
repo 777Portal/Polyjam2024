@@ -20,8 +20,10 @@ socket.on("connect", () => {
 socket.on("CloseConn", (data) => {
   console.log(data)
   canSendEggs = false
-  toggleVis('overlay')
   document.getElementById('reason').innerText = data.reason
+  setTimeout(() => {
+    toggleVis('overlay')
+  }, 500);
 });
 
 window.onfocus = function() {
