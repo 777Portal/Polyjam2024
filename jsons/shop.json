@@ -4,17 +4,17 @@
             "displayName":"Larger storage",
             "discription":"Raises your clicks! (specificly for user clicks, auto upgrades don't count to the limit)",
             "actualName":"eggMaxPerSecond",
-            "pricingEquation": "x**2*10*2.5",
+            "pricingEquation": "70 + (x * 30) + (1.15 ** x * 20)",
             "maxLevel": "1000",
             "baseLevel": 10,
             "adds": 5
         },
         "eggClicksPerSecond": {
             "displayName":"More eggs",
-            "discription":"gives you more eggs per click.",
+            "discription":"gives you more eggs per click.\nMaxed out by the storage cap.",
             "actualName":"eggClicksPerSecond",
-            "pricingEquation": "x**2*10*10",
-            "maxLevel": "100",
+            "pricingEquation": "20*x+50",
+            "maxLevel": "500",
             "baseLevel": 1,
             "adds": 1
         }
@@ -24,7 +24,7 @@
             "displayName":"Chicken",
             "discription":"Lays portions of an egg (don't question it).\nDoesn't count to the eps cap.",
             "actualName":"autoClick",
-            "pricingEquation": "x**2*10*2+10",
+            "pricingEquation": "200+x**1.8*10",
             "maxLevel": "999999",
             "baseLevel": 0,
             "adds": 0.2
