@@ -88,17 +88,20 @@ function getUserByUsername(username) {
 // to acess the session data between the two services (wss and website)
 const sessionData = {};
 
+app.get('/', async (req, query) =>{
+  return res.sendFile('auth.html', { root: './views' });
+})
+
 // this route is for the authentication process
-app.get('/', async (req, res) => {
+app.get('/authenticate', async (req, res) => {
   const { code } = req.query;
   
-  // the code we use in discord api (so if no code included just give them the page)
-  if (!code) return res.sendFile('auth.html', { root: './views' });
-  // console.log(code)
+  // the code we use in discord api (so if no code included just redirect them to homepage.
+  if (!code) return res.redirect('/')
 
   // if there is code process (login) request
   try {
-    if ( req.session.authenticated ) return res.redirect('/');
+    if ( req.session.authenticated ) return res.redirect('/home');
 
     // get send Oauth2 request
     const tokenResponseData = await request('https://discord.com/api/oauth2/token', {
