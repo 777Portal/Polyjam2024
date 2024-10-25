@@ -63,7 +63,7 @@ readFile("./jsons/users.json", "utf8", (error, data) => {
 // Middleware to check authentication
 const checkAuth = (req, res, next) => {
   if (!req.session.authenticated) {
-    return res.redirect('/authenticate');
+    return res.redirect('/');
   }
   next();
 };
@@ -89,7 +89,7 @@ function getUserByUsername(username) {
 const sessionData = {};
 
 // this route is for the authentication process
-app.get('/authenticate', async (req, res) => {
+app.get('/', async (req, res) => {
   const { code } = req.query;
   
   // the code we use in discord api (so if no code included just give them the page)
@@ -181,7 +181,7 @@ app.get('/authenticate', async (req, res) => {
   }
 
   // passed all checks, so allow them in.
-  return res.redirect('/')
+  return res.redirect('/home')
 });
 
 app.get('/logout', (req, res) => {
@@ -196,7 +196,7 @@ app.get('/logout', (req, res) => {
 
 
 // this is the actual check (for the homepage), so if its not authed then send em to the gulag, if it is, allow them through
-app.get('/', checkAuth, (req, res) => {
+app.get('/home', checkAuth, (req, res) => {
   return res.sendFile('authed.html', { root: './views' });
 })
 
