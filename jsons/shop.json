@@ -1,33 +1,44 @@
 {
     "clicker": {
         "eggMaxPerSecond": {
-            "displayName":"Max eps",
-            "discription":"Allows you to have more eggs per second (specificly for user clicks, auto upgrades don't count to the limit)",
+            "displayName":"Larger storage",
+            "discription":"Raises your clicks! (specificly for user clicks, auto upgrades don't count to the limit)",
             "actualName":"eggMaxPerSecond",
             "pricingEquation": "x**2*10*2.5",
-            "maxLevel": "100",
+            "maxLevel": "1000",
             "baseLevel": 10,
             "adds": 5
         },
         "eggClicksPerSecond": {
-            "displayName":"Value per click",
+            "displayName":"More eggs",
             "discription":"gives you more eggs per click.",
             "actualName":"eggClicksPerSecond",
             "pricingEquation": "x**2*10*10",
-            "maxLevel": "10",
+            "maxLevel": "100",
             "baseLevel": 1,
             "adds": 1
         }
     },
     "automation": {
         "autoClick": {
-            "displayName":"Auto clicker",
-            "discription":"Doesn't count to the eps cap.",
+            "displayName":"Chicken",
+            "discription":"Lays portions of an egg (don't question it).\nDoesn't count to the eps cap.",
             "actualName":"autoClick",
             "pricingEquation": "x**2*10*2+10",
-            "maxLevel": "50",
+            "maxLevel": "999999",
             "baseLevel": 0,
             "adds": 0.2
+        }
+    },
+    "misc":{
+        "eggDrop": {
+            "displayName":"Egg drop",
+            "discription":"Still in development.\n Allows you to get random eggs from users. \n(Do not buy. it will not do anything at the moment)",
+            "actualName":"eggDrop",
+            "pricingEquation": "x+25000",
+            "maxLevel": "1",
+            "baseLevel": 0,
+            "adds": 1
         }
     }
 }
