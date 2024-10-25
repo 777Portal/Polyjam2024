@@ -534,13 +534,7 @@ io.on('connection', (socket) => {
     let eps = socketSessionData.EPS ?? 0;
 
     // if eps is more then 0 subtract 1 (maybe use modifier? idk)
-    if ( eps > 0 ){
-      if (userMaxEPS == 1) return socketSessionData.EPS -= 1;
-      
-      socketSessionData.EPS -= (userMaxEPS * 0.25) + 1
-    }
-
-    eps = (socketSessionData.EPS > 0)? socketSessionData.EPS: 0;
+    socketSessionData.EPS = Math.max(socketSessionData.EPS - ((userMaxEPS * 0.25) + 1), 0);
 
     // instead of using +=, using obj + mod allows me to set it to a fallback value if its not defined.
     // theorically, it shouldn't have this as it would be set at the start but im too lazy to clear users json, and supports sustaniability in the long run.
