@@ -1,62 +1,73 @@
 // this is kinda like just a utill stuff that i need in a lot of pages, if not most.
 document.onload = innit()
 
-var profile;
+async function innit(){
+  const response = await fetch("https://www.polyjam.win/me");
+  var profile = await response.json();
 
-let socket = io.connect();
+  // update to how /me endpoint works to include dev
+  profile = profile.profile
+  if (!profile) return;
 
-let focused = true;
-let eggAmount = 0;
+  let id = profile.id
+  let avatar = profile.avatar
+  let name = profile.global_name
 
-socket.on("EU", (data) => {
-  eggAmount = addCommaToNumber(data.currentEggs);
-});
+  profileImgs = document.getElementsByClassName('myProfileImg')
+  
+  // support multiple... why does it support multiple?
+  for (var i = 0; i < profileImgs.length; i++) {
+    profileImgs[i].src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`
+  }
 
-socket.on("connect", () => {
-  canSendEggs = true
-  socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
-});
+  username = document.getElementById('username')
+  username.innerText += ` ${name} ]`
 
-socket.on("CloseConn", (data) => {
-  console.log(data)
-  canSendEggs = false
-  document.getElementById('reason').innerText = data.reason
-  setTimeout(() => {
-    toggleVis('overlay')
-  }, 500);
-});
+  connect();
+}
+
+let profile;
+let socket;
+let focused;
+let eggAmount;
+
+function connect(){
+  profile;
+
+  socket = io.connect();
+  
+  focused = true;
+  eggAmount = 0;
+  
+  socket.on("EU", (data) => {
+    eggAmount = addCommaToNumber(data.currentEggs);
+  });
+  
+  socket.on("connect", () => {
+    canSendEggs = true
+    socket.emit("conn", {message: `Connected succesfully @ [ ${getTimeStamp()} ]`})
+  });
+  
+  socket.on("CloseConn", (data) => {
+    console.log(data)
+    canSendEggs = false
+    document.getElementById('reason').innerText = data.reason
+    setTimeout(() => {
+      toggleVis('overlay')
+    }, 500);
+  });  
+}
 
 window.onfocus = function() {
-  document.title = "Eggstronomical Clicker";
+  document.title = "Average EC";
   focused = true
 };
 
 window.onblur = function() {
-  document.title = `EC - (${eggAmount})`;
+  if (!eggAmount) eggAmount = 'UNF'
+  document.title = `AEC - (${eggAmount})`;
   focused = false
 };
-
-async function innit(){
-    const response = await fetch("https://www.polyjam.win/me");
-    var profile = await response.json();
-
-    // update to how /me endpoint works to include dev
-    profile = profile.profile
-
-    let id = profile.id
-    let avatar = profile.avatar
-    let name = profile.global_name
-
-    profileImgs = document.getElementsByClassName('myProfileImg')
-    
-    // support multiple... why does it support multiple?
-    for (var i = 0; i < profileImgs.length; i++) {
-        profileImgs[i].src = `https://cdn.discordapp.com/avatars/${id}/${avatar}`
-    }
-  
-    username = document.getElementById('username')
-    username.innerText += ` ${name} ]`
-}
 
 function roundNumber(num){
     return Math.round(num * 100) / 100
