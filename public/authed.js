@@ -43,7 +43,8 @@ async function innit(){
   profile = profile.profile
   if (!profile) {
     eggsBalance = document.getElementById('balTopBar');
-    toggleVis(eggsBalance);
+    eggsBalance.style.display = "none";
+
     profileImgs.src = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥚</text></svg>";
     username.innerText += ` Guest ]`;
     return;
@@ -87,10 +88,13 @@ function connect(){
   
   socket.on("CloseConn", (data) => {
     console.log(data)
+    
     canSendEggs = false
     document.getElementById('reason').innerText = data.reason
+    
     setTimeout(() => {
-      toggleVis('overlay')
+      overlay = document.getElementById('overlay');
+      overlay.style.display = "block";
     }, 500);
   });  
 }
