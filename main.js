@@ -463,6 +463,10 @@ io.on('connection', (socket) => {
   // to acess user data
   let userObject = users[socketSessionData.info.id];
   userObject.ssocid = socket.id;
+  if (!userObject.ssocid || socket.id) {
+    socket.emit( 'CloseConn', {reason: 'SSOCID missing [Error code 0]'} )
+    return socket.disconnect(true);
+  }
 
   // to iterate over all sockets if we want to send smth in the future
   sockets[socket.id] = socket;
