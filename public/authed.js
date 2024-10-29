@@ -65,7 +65,7 @@ async function innit(){
 }
 
 let profile;
-let socket;
+var socket;
 let focused;
 let eggAmount;
 
@@ -74,6 +74,11 @@ function connect(){
 
   socket = io.connect();
   
+  const myEvent = new CustomEvent('loggedIn', {
+    detail: { message: 'Logged in!' }
+  });
+  document.dispatchEvent(myEvent);
+
   focused = true;
   eggAmount = 0;
   
@@ -96,7 +101,7 @@ function connect(){
       overlay = document.getElementById('overlay');
       overlay.style.display = "block";
     }, 500);
-  });  
+  });
 }
 
 window.onfocus = function() {
