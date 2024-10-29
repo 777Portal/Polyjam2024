@@ -1,42 +1,45 @@
 var balance = 0;
 var balanceTopbar = document.getElementById('balTopBar')
 
-// get how much moneyz we have from wss
-socket.on("EU", (data) => {
-  balance = data.currentEggs
-  balanceTopbar.innerText = `${addCommaToNumber(balance)} eggs`
-});
+document.addEventListener('loggedIn', (event) => {innitSocket();})
 
-// Bu
-socket.on("BU", (data) => {
-  let result = data.result
-  
-  // if result is true, do green, if not do red, ect, ect. (not a nullish operator but i love nullish operators)
-  let color = result ? 'green' : 'red'
-  let string = result ? 'Sucessfully purchased item!' : data.error
-  let price = data?.newPrice
-  let level = data?.level;
-  let maxLevel = data?.maxLevel;
+function innitSocket(){
+  // get how much moneyz we have from wss
+  socket.on("EU", (data) => {
+    balance = data.currentEggs
+    balanceTopbar.innerText = `${addCommaToNumber(balance)} eggs`
+  });
 
-  let item = data.item
+  // Bu
+  socket.on("BU", (data) => {
+    let result = data.result
+    
+    // if result is true, do green, if not do red, ect, ect. (not a nullish operator but i love nullish operators)
+    let color = result ? 'green' : 'red'
+    let string = result ? 'Sucessfully purchased item!' : data.error
+    let price = data?.newPrice
+    let level = data?.level;
+    let maxLevel = data?.maxLevel;
 
-  console.log(string)
+    let item = data.item
 
-  let theButton = document.getElementById(item)
-  let levelText = document.getElementById(`${item}Level`);
-  if (result) levelText.innerText = `level ${level} / ${maxLevel}`;
+    console.log(string)
 
-  // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
-  if (result) theButton.innerText = `buy for ${roundNumber(price)} eggs`;
-  theButton.style.backgroundColor = color
-
-  setTimeout(() => {
     let theButton = document.getElementById(item)
-    theButton.style.backgroundColor = 'white';
-    theButton.disabled = false;
-  }, .5 * 1000);
-});
+    let levelText = document.getElementById(`${item}Level`);
+    if (result) levelText.innerText = `level ${level} / ${maxLevel}`;
 
+    // if it was sucessful we should've gotten new price, so we set it. (rounded to the 0.00 place thing)
+    if (result) theButton.innerText = `buy for ${roundNumber(price)} eggs`;
+    theButton.style.backgroundColor = color
+
+    setTimeout(() => {
+        let theButton = document.getElementById(item)
+        theButton.style.backgroundColor = 'white';
+        theButton.disabled = false;
+      }, .5 * 1000);
+    });
+}
 
 document.onload = innit()
 
