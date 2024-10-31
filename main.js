@@ -238,26 +238,35 @@ let userProfilePage =
 <body>
 <nav>
   <div class="logo-container">
-    <h2>Average Egg Clicker</h2>
+    <img class="myProfileImg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==
+    ">
+    <h2>AEC</h2>
+    <p id="username"> Logged in as [</p>
+  </div>
+  <div class="logout-container" id="balTopBar">
+    <p>eggs: </p>
+  </div>
+  <div class="logout-container">
+    <a href="/logout">Logout</a>
   </div>
 </nav>
 
 <section>
 
   <aside>
-    <a href="/"> Home </a>
-    <br>
-    <br>
-    <a href="/shop"> Shop </a>
-    <br>
-    <br>
-    <a href="/@self" class="active"> My profile </a>
-    <br> 
-    <br> 
-    <a href="/leaderboards">Leaderboard</a>
-    <br>
-    <br>
-    <a href="Https://ExonAuto.me">Credits</a>
+  <a href="/home" id="home"> Home </a>
+  <br>
+  <br>
+  <a href="/shop" id="shop"> Shop </a>
+  <br>
+  <br>
+  <a href="/@self" id="profile" class="active"> My profile </a>
+  <br> 
+  <br> 
+  <a href="/leaderboards" id="leaderboards">Leaderboard</a>
+  <br>
+  <br>
+  <a href="https://exonauto.me" id="credits">Credits</a>
   </aside>
 
   <main id="main" style="text-align: center;">
@@ -288,7 +297,7 @@ let userProfilePage =
   </main>
 </section>
 </body>
-
+<script src="/assets/authed.js"></script>
 <script src="/assets/profile.js"></script>
 </html>
 `
