@@ -263,7 +263,7 @@ let userProfilePage =
 
   <main id="main" style="text-align: center;">
     
-    <h1 id="username"> username </h1>
+    <h1 id="usernameProfile"> username </h1>
     
     <small id="joindate"> ( joined: joindate ) </small>
     

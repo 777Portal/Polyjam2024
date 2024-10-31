@@ -13,7 +13,7 @@ async function innit(){
   const profileInfo = pd.profile
 
   const globalName = profileInfo.global_name
-  getEl('username').innerText = globalName
+  getEl('usernameProfile').innerText = globalName
   
   const joindate = pd.firstLogin
   let utc = new Date(joindate);
