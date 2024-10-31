@@ -255,17 +255,9 @@ let userProfilePage =
 
   <aside>
   <a href="/home" id="home"> Home </a>
-  <br>
-  <br>
   <a href="/shop" id="shop"> Shop </a>
-  <br>
-  <br>
-  <a href="/@self" id="profile" class="active"> My profile </a>
-  <br> 
-  <br> 
+  <a href="/@self" class="active" id="profile"> My profile </a>
   <a href="/leaderboards" id="leaderboards">Leaderboard</a>
-  <br>
-  <br>
   <a href="https://exonauto.me" id="credits">Credits</a>
   </aside>
 

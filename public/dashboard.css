@@ -62,6 +62,7 @@ aside a {
   padding: 30px;
   margin-bottom: 5px;
   text-align: center;
+  margin-bottom: 25%;
 }
 
 aside a:hover {
@@ -82,8 +83,8 @@ main {
 }
 
 .item {
-  width: 200px; 
-  height: 200px;
+  min-width: 200px; 
+  min-height: 200px;
   background-color: #ccc; 
   margin: 5px; /* Adjust spacing between items */
 }
@@ -125,6 +126,19 @@ main {
   padding: 25px;
 }
 
+.card {
+  backdrop-filter: blur(13px) saturate(180%);
+  -webkit-backdrop-filter: blur(13px) saturate(180%);
+  background-color: rgba(135, 206, 235, 0.45);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.rounded {
+  border-radius: 25px;
+  padding: 20px;
+}
+
 /* Responsive styles */
 @media only screen and (min-width: 768px) {
   section {
@@ -153,7 +167,6 @@ main {
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
-
 
 @keyframes rotate360 {
   to { transform: rotate(360deg);}           
